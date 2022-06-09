@@ -17,6 +17,7 @@
     ### filtering, pagination, ordering in GET /tasks?--options--
 ## Note
 config folder need to be added to .gitignore to hide envirenment variables  
+the envireonment variables that need to be added for hosting  
 PORT=3001  
 MONGODB_URL=mongodb://127.0.0.1:27017/task-manager-api  
 JWT_SECRET=secret_here  
