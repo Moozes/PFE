@@ -16,7 +16,7 @@
     ### password hash
     ### filtering, pagination, ordering in GET /tasks?--options--
 ## Note
-config folder need to be added to .gitignore to hide envirenment variables
+config folder need to be added to .gitignore to hide envirenment variables  
 PORT=3001  
 MONGODB_URL=mongodb://127.0.0.1:27017/task-manager-api  
 JWT_SECRET=secret_here  
