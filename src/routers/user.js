@@ -37,6 +37,11 @@ router.post('/users/login', async (req, res) => {
     }
 })
 
+// verify email
+router.post('/verify', async (req, res) => {
+
+})
+
 // logout of a single session
 router.post('/users/logout', auth, async (req, res) => {
     try{
@@ -166,7 +171,7 @@ router.get('/users/:id/avatar', async (req, res) => {
 
 // reset password-----------------------------
 // POST {email}
-router.post('/send-code', async (req, res) => {
+router.post('/send-reset-code', async (req, res) => {
     try{
         const user = await User.findOne({email: req.body.email})
         if(!user)

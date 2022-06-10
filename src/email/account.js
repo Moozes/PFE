@@ -13,10 +13,11 @@ const transporter = nodemailer.createTransport({
 function sendWelcomeMail(email, name) {
 
     const mailOptions = {
-        from: 'khodja.moussa@outlook.com',
+        from: process.env.EMAIL,
         to: email,
         subject: 'Welcome,',
-        text: `Hello ${name}`
+        text: `Hello ${name}`,
+        html: `<h3 aling="center">Skin Cancer Platform<h3><p><strong>hello ${name}</strong></p>`
     }
     
     transporter.sendMail(mailOptions, function(error, info){
@@ -33,7 +34,7 @@ function sendWelcomeMail(email, name) {
 function sendRandomCode(email,code) {
 
     const mailOptions = {
-        from: 'khodja.moussa@outlook.com',
+        from: process.env.EMAIL,
         to: email,
         subject: 'Code',
         text: code
