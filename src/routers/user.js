@@ -16,12 +16,17 @@ router.post('/users', async (req, res) => {
     const user = User(req.body)
 
     try{
+
+        // send verification code email, save random code in db, send 200 ok
+        const randomCode = generateRandomCode(4)
+        sendRandomCode(user.email, randomCode)
+        user.latestVerificationCode = randomCode
+
         await user.save()
-        sendWelcomeMail(user.email, user.name)
         const token = await user.generateAuthToken()
         res.status(201).send({user, token})
     }catch(e) {
-        res.status(400).send(e)
+        res.status(400).send({error: e})
     }
 })
 
@@ -33,13 +38,32 @@ router.post('/users/login', async (req, res) => {
         res.send({user, token})
     }catch(e) {
         console.log(e)
-        res.status(400).send({error: e})
+        res.status(400).send({error: "unable to login"})
     }
 })
 
 // verify email
 router.post('/verify', async (req, res) => {
+    const {email, code} = req.body
+    try{
+        const user = await User.findOne({email})
+        if(!user)
+            return res.status(404).send({error: "not found"})
+        // extract code from db, if equal reset password
+        if(!(code === user.latestVerificationCode))
+            throw new Error()
 
+        user.verifiedEmail = true
+        // this could throw validation errors, that is why i ran user.save() 2 times
+        // i dont want the latestResetPasswordCode to be removed until the new password is valid   
+        await user.save()
+        // if you want to remove latestResetPasswordCode from db 
+        // user.latestResetPasswordCode = undefined
+        // await user.save()
+        res.send()
+    }catch(e) {
+        res.status(400).send({error: e})
+    }
 })
 
 // logout of a single session
@@ -121,7 +145,7 @@ router.delete('/users/me', auth, async (req, res) => {
 const upload = multer({
     // dest: "avatars", you need to remove dest so you can access binary file data in router handler function "req.file.buffer" to save it to mongodb, we dont save it to the file system because each deployement deletes all files
     limits: {
-        fileSize: 1000000
+        fileSize: 2000000
     },
     fileFilter(req, file, cb) {
         // cb is short for callback
@@ -149,7 +173,7 @@ router.delete('/users/me/avatar', auth, async (req, res) => {
         await req.user.save()
         res.send()
     }catch(e) {
-        res.status(500).send()
+        res.status(500).send({error: "server error"})
     }
 })
 
@@ -184,7 +208,7 @@ router.post('/send-reset-code', async (req, res) => {
         await user.save()
         res.send()
     }catch(e) {
-        res.status(400).send()
+        res.status(400).send({error: e})
     }
 })
 
@@ -197,7 +221,7 @@ router.post('/reset-password', async (req, res) => {
         if(!user)
             return res.status(404).send({error: "not found"})
         // extract code from db, if equal reset password
-        if(!code === user.latestResetPasswordCode)
+        if(!(code === user.latestResetPasswordCode))
             throw new Error()
 
         user.password = newPassword
@@ -205,11 +229,11 @@ router.post('/reset-password', async (req, res) => {
         // i dont want the latestResetPasswordCode to be removed until the new password is valid   
         await user.save()
         // if you want to remove latestResetPasswordCode from db 
-        user.latestResetPasswordCode = undefined
-        await user.save()
+        // user.latestResetPasswordCode = undefined
+        // await user.save()
         res.send()
     }catch(e) {
-        res.status(400).send(e)
+        res.status(400).send({error: e})
     }
 })
 

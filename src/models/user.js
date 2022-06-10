@@ -10,13 +10,6 @@ const userSchema = mongoose.Schema({
         required: true,
         trim: true
     },
-    age: {
-        type: Number,
-        default: 0,
-        validate(value) {
-            if(value < 0) throw new Error('age cant be negative')
-        }
-    },
     email: {
         type: String,
         unique: true,
@@ -52,6 +45,13 @@ const userSchema = mongoose.Schema({
     },
     latestResetPasswordCode: {
         type: String
+    },
+    latestVerificationCode: {
+        type: String
+    },
+    verifiedEmail: {
+        type: Boolean,
+        default: false
     }
 }, {
     // this will add 2 properties automatically, createdAt, updatedAt
@@ -74,11 +74,16 @@ userSchema.methods.toJSON = function() {
     // construct the image url for frontend use, and we dont want to return avatar binary data
     // -----or----
     // if avatar is undefined we can set a default url to a default static image saved in the server's file system 
-    // userObject.imageUrl = `/users/${userObject._id}/avatar`
+    if(user.avatar)
+        userObject.avatarUrl = `/users/${userObject._id}/avatar`
+    else
+        userObject.avatarUrl = null
     
     delete userObject.avatar
     delete userObject.password
     delete userObject.tokens
+    delete userObject.latestVerificationCode
+    delete userObject.latestResetPasswordCode
 
     return userObject
 }

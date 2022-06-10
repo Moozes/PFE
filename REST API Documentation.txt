@@ -1,0 +1,269 @@
+Signup
+    POST host/users
+    send: 
+        {
+            name: ""
+            email: ""
+            password: ""
+            role: "user" or "doctor"
+        }
+
+    receive:
+        if success
+        status: 201
+        {
+            user: {
+                name
+                email
+                role
+                createdAt
+                updatedAt
+                avatarUrl // url string or null
+            },
+            token: "..."
+        }
+    
+        if error
+        status: 400
+        {
+            error: string or object
+        }
+
+==================================================
+Login
+    POST host/users/login
+    send: 
+        {
+            name: ""
+            email: ""
+        }
+
+    receive:
+        if success
+        status:200 
+        {
+            user: {
+                name
+                email
+                role
+                createdAt
+                updatedAt
+                avatarUrl // url string or null
+            },
+            token: "..."
+        }
+    
+        if error
+        status: 400
+        {
+            error: "unable to login"
+        }
+
+
+=========================================================
+reset password: it has to parts
+    POST host/send-reset-code
+    send: 
+        {
+            email: ""
+        }
+
+    receive:
+        if success
+        status: 200
+        {}
+    
+        if error
+        status: 404 or 400
+        {
+            error: "not found" or {}
+        }
+    =======================================
+    POST host/reset-password
+    send: 
+        {
+            email: ""
+            code: ""
+            newPassword: ""
+        }
+
+    receive:
+        if success
+        status: 200
+        {}
+    
+        if error
+        status: 404 or 400
+        {
+            error: "not found" or object
+        }
+=======================================================
+logout
+    POST host/users/logout
+    send:
+        header: Authorization, value: "Bearer ...token_string_here..." 
+        {}
+
+    receive:
+        if success
+        status: 200
+        {}
+    
+        if error
+        status: 401 
+        {
+            error: "please authenticate"
+        }
+
+====================================================
+logoutAll
+    POST host/users/logoutAll
+    send: 
+        header: Authorization, value: "Bearer ...token_string_here..." 
+        {}
+
+    receive:
+        if success
+        status: 200
+        {}
+    
+        if error
+        status: 401
+        {
+            error: "please authenticate"
+        }
+
+
+======================================================
+get my profile information
+    GET host/users/me
+    send: 
+        header: Authorization, value: "Bearer ...token_string_here..." 
+        {}
+
+    receive:
+        if success
+        status: 200
+        {
+            name
+            email
+            role
+            createdAt
+            updatedAt
+            avatarUrl // url string or null
+        }
+    
+        if error
+        status: 401
+        {
+            error: "please authenticate"
+        }
+
+=======================================================
+delete my user
+    DELETE host/users/me
+    send: 
+        header: Authorization, value: "Bearer ...token_string_here..." 
+        {}
+
+    receive:
+        if success
+        status: 200
+        {
+            name
+            email
+            role
+            createdAt
+            updatedAt
+            avatarUrl // url string or null
+        }
+
+        if error
+        status: 401
+        {
+             error: "please authenticate"
+        }
+
+======================================================
+upload profile image
+    POST host/users/me/avatar
+    send: 
+        header: Authorization, value: "Bearer ...token_string_here..." 
+        form data with name "avatar"
+
+    receive:
+        if success
+        status: 200
+        {}
+
+        if error
+        status: 400 //if not an image: jpg, jpeg, png
+        {
+            "error": "Please upload an image" or "file too large"
+        }
+
+=======================================================
+delete profile image
+    DELETE host/users/me/avatar
+    send: 
+        header: Authorization, value: "Bearer ...token_string_here..." 
+        {}
+
+    receive:
+        if success
+        status: 200
+        {}
+
+        if error
+        status: 500
+        {
+            error: "server error"
+        }
+
+========================================================
+verify email
+    POST host/verify
+    send: 
+        {
+            email
+            code
+        }
+
+    receive:
+        if success
+        status: 200
+        {}
+
+        if error
+        status: 404 or 400
+        {
+            error: "not found" or {}
+        }
+
+
+
+
+Notes: 
+    -when you send Authorization header make sure the value is like this: "Bearer ...token_string_here..."
+                                                                                \/
+                                                                            leave only one space
+
+
+
+
+
+
+
+
+    METHOD host/users
+    send: 
+        {}
+
+    receive:
+        if success
+        status: 
+        {}
+
+        if error
+        status: 
+        {}
