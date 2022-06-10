@@ -1,6 +1,7 @@
 # PFE back
 
 ## Run the App localy
+    npm install  
     npm run dev
 
 ## a  REST API with
