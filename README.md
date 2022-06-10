@@ -1,5 +1,8 @@
 # PFE back
 
+## Run the App localy
+    npm run dev
+
 ## a  REST API with
     ### signup (CEATE)
     ### login
