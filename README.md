@@ -1,6 +1,7 @@
 # PFE back
 
 ## Run the App localy
+    launch a local mongodb database on port 27017  
     npm install  
     npm run dev
 
