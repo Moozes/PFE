@@ -7,7 +7,6 @@
 
 ## Note
 the envireonment variables that need to be added for hosting  
-PORT=3001  
 MONGODB_URL=mongodb://127.0.0.1:27017/pfe  
 JWT_SECRET=MoussaOussamaEsi
 EMAIL=pfe-esi-sba@outlook.com
