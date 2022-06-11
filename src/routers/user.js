@@ -2,6 +2,8 @@ const express = require('express')
 const User = require('../models/user')
 const Task = require('../models/task')
 const auth = require('../middleware/auth')
+const authorization = require('../middleware/authorization')
+const ROLES = require('../middleware/roles')
 const multer = require('multer')
 const sharp = require('sharp')
 const { sendWelcomeMail, sendRandomCode } = require('../email/account')
@@ -17,12 +19,15 @@ router.post('/users', async (req, res) => {
 
     try{
 
-        // send verification code email, save random code in db, send 200 ok
-        const randomCode = generateRandomCode(4)
-        sendRandomCode(user.email, randomCode)
-        user.latestVerificationCode = randomCode
-
+        // need to save before sending email to see if there are any validation errors
         await user.save()
+
+        // send verification code email, save random code in db, send 200 ok
+        // const randomCode = generateRandomCode(4)
+        // sendRandomCode(user.email, randomCode)
+        // user.latestVerificationCode = randomCode
+
+        // generateAuthToken will save a second time
         const token = await user.generateAuthToken()
         res.status(201).send({user, token})
     }catch(e) {
@@ -234,6 +239,21 @@ router.post('/reset-password', async (req, res) => {
         res.send()
     }catch(e) {
         res.status(400).send({error: e})
+    }
+})
+
+
+
+
+
+// -------for admin only-----------
+router.get('/users', auth, authorization(ROLES[0]), async (req, res) => {
+    try{
+        const users = await User.find({})
+        res.send(users)
+    }catch(e) {
+        console.log(e)
+        res.status(500).send({error: e})
     }
 })
 

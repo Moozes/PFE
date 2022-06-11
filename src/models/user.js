@@ -52,6 +52,11 @@ const userSchema = mongoose.Schema({
     verifiedEmail: {
         type: Boolean,
         default: false
+    },
+    role: {
+        type: String,
+        required: true,
+        enum: ['admin', 'doctor', 'user']
     }
 }, {
     // this will add 2 properties automatically, createdAt, updatedAt
