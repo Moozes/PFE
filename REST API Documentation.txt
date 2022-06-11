@@ -242,11 +242,36 @@ verify email
 
 
 
+====================================================
+verify doctor by admin
+    POST host/users/:id/verifyDoctor
+    send: 
+        header: Authorization, value: "Bearer ...token_string_here..." 
+        {}
+
+    receive:
+        if success
+        status: 200
+        {}
+
+        if error
+        status: 404
+        {
+            error: "Not Found"
+        }
+
+
+
 
 Notes: 
     -when you send Authorization header make sure the value is like this: "Bearer ...token_string_here..."
                                                                                 \/
-                                                                            leave only one space
+                                                                            leave only one 
+                                                                            
+    - admin account is always created automatically when the app starts
+        email: khodja.moussa@yahoo.com
+        password: helloadmin
+
 
 
 
