@@ -16,8 +16,13 @@ const router = express.Router()
 // create user - signup
 router.post('/users', async (req, res) => {
     const user = User(req.body)
-
+    
     try{
+        // users can only signup as doctor or user, admin role cant be chosen
+        const allowedRoles = ['doctor', 'user']
+        if(!allowedRoles.includes(user.role))
+            throw new Error('role can be doctor or user')
+
 
         // need to save before sending email to see if there are any validation errors
         await user.save()
@@ -254,6 +259,19 @@ router.get('/users', auth, authorization(ROLES[0]), async (req, res) => {
     }catch(e) {
         console.log(e)
         res.status(500).send({error: e})
+    }
+})
+
+router.post('/users/:id/verifyDoctor',auth, authorization(ROLES[0]), async (req, res) => {
+    try{
+        const user = await User.findById(req.params.id)
+        if(!user)
+            throw new Error()
+        user.verifiedDoctor = true
+        await user.save()
+        res.send()
+    }catch(e) {
+        res.status(404).send({error: "Not Found"})
     }
 })
 

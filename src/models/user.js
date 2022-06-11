@@ -57,6 +57,10 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true,
         enum: ['admin', 'doctor', 'user']
+    },
+    verifiedDoctor: {
+        type: Boolean,
+        default: false
     }
 }, {
     // this will add 2 properties automatically, createdAt, updatedAt
@@ -89,6 +93,8 @@ userSchema.methods.toJSON = function() {
     delete userObject.tokens
     delete userObject.latestVerificationCode
     delete userObject.latestResetPasswordCode
+    delete userObject.verifiedDoctor
+    delete userObject.verifiedEmail
 
     return userObject
 }

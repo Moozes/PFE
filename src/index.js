@@ -2,6 +2,7 @@ require('./db/mongoose')
 const express = require('express')
 const userRouter = require('./routers/user')
 const taskRouter = require('./routers/task')
+const User = require('./models/user')
 
 const app = express()
 const PORT = process.env.PORT //|| 3001 removed because we have an environment variable now in dev.env
@@ -37,6 +38,30 @@ const PORT = process.env.PORT //|| 3001 removed because we have an environment v
 // }, (error, req, res, next) => {
 //     res.status(400).send({error: error.message})
 // })
+
+
+// name admin, email khodja.moussa@yahoo.com, password helloadmin, verifiedEmail true, role admin
+const createAdmin = async () => {
+    try{
+        const user =  User({
+            name: "admin",
+            email: "khodja.moussa@yahoo.com",
+            password: "helloadmin",
+            verifiedEmail: true,
+            role: "admin"
+        })
+        const admin = await User.findOne({email: "khodja.moussa@yahoo.com"})
+        if(!admin){
+            await user.save()
+        }
+
+    }catch(e) {
+        console.log(e)
+    }
+} 
+createAdmin()
+
+
 
 app.use(express.json())
 app.use(userRouter)
