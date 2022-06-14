@@ -303,6 +303,48 @@
 
 
 
+
+========================================================
+============= Doctors and admin=======================
+=======================================================
+    Get published lesions
+    METHOD host/lesions/published
+    send: 
+        header: Authorization, value: "Bearer ...token_string_here..." 
+        {}
+
+    receive:
+        if success
+        status: 200 
+        [
+            {
+                "published": true,
+                "_id": "62a882f4e103ca45d1c5fe18",
+                "description": "admin lesion2",
+                "owner": "62a46f0ee83cc60d7c959a89",
+                "createdAt": "2022-06-14T12:45:40.928Z",
+                "updatedAt": "2022-06-14T13:05:55.744Z",
+                "__v": 0,
+                "imageUrl": "/lesions/62a882f4e103ca45d1c5fe18/image"
+            },
+            {
+                "published": true,
+                "_id": "62a882f4e103ca45d1c5fe18",
+                "description": "admin lesion2",
+                "owner": "62a46f0ee83cc60d7c959a89",
+                "createdAt": "2022-06-14T12:45:40.928Z",
+                "updatedAt": "2022-06-14T13:05:55.744Z",
+                "__v": 0,
+                "imageUrl": "/lesions/62a882f4e103ca45d1c5fe18/image"
+            },
+        ]
+
+        if error
+        status: 500
+        {
+            error: something
+        }
+
 ========================================================
 ============= Lesion Management =======================
 =======================================================
@@ -439,6 +481,11 @@ Notes:
     - admin account is always created automatically when the app starts
         email: khodja.moussa@yahoo.com
         password: helloadmin
+
+    - permissions
+        admin has 3 permissions: admin, doctor, user
+        doctor has 2 permissions: doctor, user
+        user has 1 permissions : user
 
 
 

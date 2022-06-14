@@ -58,11 +58,23 @@ router.get('/lesions/:id/image', async (req, res) => {
 })
 
 
+
 // TODO: maybe sort by newest first
+// Get my lesions
 router.get('/lesions', auth, async (req, res) => {
     try{
         await req.user.populate('lesions').execPopulate()
         res.send(req.user.lesions)
+    }catch(e) {
+        res.status(500).send({error: e})
+    }
+})
+
+// Get published lesions, this is for doctors and admin
+router.get('/lesions/published', auth, authorization([ROLES[0], ROLES[1]]), async (req, res) => {
+    try{
+        const publishedLesions = await Lesion.find({published: true})
+        res.send(publishedLesions)
     }catch(e) {
         res.status(500).send({error: e})
     }
@@ -78,6 +90,8 @@ router.delete('/lesions/:id', auth, async (req, res) => {
         res.status(500).send({error: e})
     }
 })
+
+
 
 // this is a general update endpoint, but im only allowing 'published' to be updated
 router.patch('/lesions/:id', auth, async (req, res) => {
@@ -99,6 +113,9 @@ router.patch('/lesions/:id', auth, async (req, res) => {
         res.status(400).send({error: e})
     }
 })
+
+
+
 
 router.post('/test', (req, res) => {
     console.log(req.body)
