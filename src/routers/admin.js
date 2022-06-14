@@ -8,7 +8,7 @@ const ROLES = require('../middleware/roles')
 const router = express.Router()
 
 
-router.get('/users', auth, authorization(ROLES[0]), async (req, res) => {
+router.get('/users', auth, authorization([ROLES[0]]), async (req, res) => {
     try{
         const users = await User.find({})
         res.send(users)
@@ -18,7 +18,7 @@ router.get('/users', auth, authorization(ROLES[0]), async (req, res) => {
     }
 })
 
-router.post('/users/:id/verifyDoctor',auth, authorization(ROLES[0]), async (req, res) => {
+router.post('/users/:id/verifyDoctor',auth, authorization([ROLES[0]]), async (req, res) => {
     try{
         const user = await User.findById(req.params.id)
         if(!user)
@@ -29,10 +29,6 @@ router.post('/users/:id/verifyDoctor',auth, authorization(ROLES[0]), async (req,
     }catch(e) {
         res.status(404).send({error: "Not Found"})
     }
-})
-
-router.get('/test', auth, authorization([ROLES[0], ROLES[2]]), (req, res) => {
-    res.send("testing succeded")
 })
 
 
