@@ -2,13 +2,15 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const Task = require('./task')
+const Lesion = require('./lesion')
+const ROLES = require('../middleware/roles')
 
 const userSchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        unique: true,
     },
     email: {
         type: String,
@@ -56,7 +58,7 @@ const userSchema = mongoose.Schema({
     role: {
         type: String,
         required: true,
-        enum: ['admin', 'doctor', 'user']
+        enum: ROLES
     },
     verifiedDoctor: {
         type: Boolean,
@@ -68,8 +70,8 @@ const userSchema = mongoose.Schema({
 })
 
 // a virtual field means that data isnt really stored in the data base, it is just a relationship
-userSchema.virtual('tasks', {
-    ref: 'Task',
+userSchema.virtual('lesions', {
+    ref: 'Lesion',
     localField: '_id',
     foreignField: 'owner'
 })
@@ -137,7 +139,7 @@ userSchema.pre('save', async function(next) {
 // to cascade delete all related tasks
 userSchema.pre('remove', async function(next) {
     const user = this
-    await Task.deleteMany({owner: user._id})
+    await Lesion.deleteMany({owner: user._id})
     next()
 })
 

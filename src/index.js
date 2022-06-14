@@ -1,7 +1,9 @@
 require('./db/mongoose')
 const express = require('express')
-const userRouter = require('./routers/user')
+const userRouter = require('./routers/accountManagement')
 const taskRouter = require('./routers/task')
+const adminRouter = require('./routers/admin')
+const lesionRouter = require('./routers/lesion')
 const User = require('./models/user')
 
 const app = express()
@@ -66,6 +68,11 @@ createAdmin()
 app.use(express.json())
 app.use(userRouter)
 app.use(taskRouter)
+app.use(adminRouter)
+app.use(lesionRouter)
+app.use((req, res, next) => {
+    res.status(404).send({error: "Not Found!"})
+})
 
 
 app.listen(PORT, () => {

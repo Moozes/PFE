@@ -255,7 +255,7 @@ verify doctor by admin
         {}
 
         if error
-        status: 404
+        status: 404 or (401 not authenticated because not logged in) or (403 not authorized because not admin)
         {
             error: "Not Found"
         }

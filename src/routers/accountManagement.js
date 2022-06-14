@@ -167,7 +167,7 @@ const upload = multer({
 // upload user image
 router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) => {
     // making image smaller 250x250 and converting to unified format (png)
-    const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
+    const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).jpeg().toBuffer()
     req.user.avatar = buffer
     await req.user.save()
     res.send()
@@ -194,7 +194,7 @@ router.get('/users/:id/avatar', async (req, res) => {
         if(!user || !user.avatar)
             throw new Error('Not Found!')
 
-        res.set('Content-Type', 'image/png')
+        res.set('Content-Type', 'image/jpg')
         res.send(user.avatar)
     }catch(e) {
         res.status(404).send({error: e})
@@ -251,29 +251,7 @@ router.post('/reset-password', async (req, res) => {
 
 
 
-// -------for admin only-----------
-router.get('/users', auth, authorization(ROLES[0]), async (req, res) => {
-    try{
-        const users = await User.find({})
-        res.send(users)
-    }catch(e) {
-        console.log(e)
-        res.status(500).send({error: e})
-    }
-})
 
-router.post('/users/:id/verifyDoctor',auth, authorization(ROLES[0]), async (req, res) => {
-    try{
-        const user = await User.findById(req.params.id)
-        if(!user)
-            throw new Error()
-        user.verifiedDoctor = true
-        await user.save()
-        res.send()
-    }catch(e) {
-        res.status(404).send({error: "Not Found"})
-    }
-})
 
 
 
