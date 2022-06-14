@@ -247,6 +247,43 @@
 =======================================================
 ============= Admin =======================
 =======================================================
+    Get all doctors
+        GET host/users/doctors
+        send: 
+            header: Authorization, value: "Bearer ...token_string_here..." 
+            {}
+
+        receive:
+            if success
+            status: 200
+            [
+                {
+                    "_id": "62a46f4223d6f20e0dc12c49",
+                    "name": "moussa",
+                    "email": "m.khodja@esi-sba.dz",
+                    "role": "doctor",
+                    "createdAt": "2022-06-11T10:32:34.590Z",
+                    "updatedAt": "2022-06-13T17:41:17.946Z",
+                    "__v": 4,
+                    "avatarUrl": null
+                },
+                {
+                    "_id": "62a88ee5d96a5b5a93f323fa",
+                    "name": "moussa3",
+                    "email": "example3@example.com",
+                    "role": "doctor",
+                    "createdAt": "2022-06-14T13:36:37.151Z",
+                    "updatedAt": "2022-06-14T13:36:37.212Z",
+                    "__v": 1,
+                    "avatarUrl": null
+                }
+            ]
+
+            if error
+            status: 500
+            {}
+
+    ======================================================
     verify doctor by admin
         POST host/users/:id/verifyDoctor
         send: 

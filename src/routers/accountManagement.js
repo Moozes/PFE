@@ -21,7 +21,7 @@ router.post('/users', async (req, res) => {
         // users can only signup as doctor or user, admin role cant be chosen
         const allowedRoles = ['doctor', 'user']
         if(!allowedRoles.includes(user.role))
-            throw new Error('role can be doctor or user')
+            throw 'role can be doctor or user'
 
 
         // need to save before sending email to see if there are any validation errors
