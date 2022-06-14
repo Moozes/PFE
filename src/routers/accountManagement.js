@@ -28,9 +28,9 @@ router.post('/users', async (req, res) => {
         await user.save()
 
         // send verification code email, save random code in db, send 200 ok
-        // const randomCode = generateRandomCode(4)
-        // sendRandomCode(user.email, randomCode)
-        // user.latestVerificationCode = randomCode
+        const randomCode = generateRandomCode(4)
+        sendRandomCode(user.email, randomCode)
+        user.latestVerificationCode = randomCode
 
         // generateAuthToken will save a second time
         const token = await user.generateAuthToken()
@@ -106,22 +106,33 @@ router.get('/users/me', auth, async (req, res) => {
 
 router.patch('/users/me', auth, async (req, res) => {
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['name', 'email']
+    const allowedUpdates = ['name', 'email', 'password']
     const isValidOperation = updates.every(item => allowedUpdates.includes(item))
+    let emailChanged = false
 
     if(!isValidOperation)
         return res.status(400).send({error: 'Cant update those properties'})
 
+    // if email changed reset verifiedEmail to false and resend verification code
+    if(updates.includes('email')){
+        emailChanged = req.user.email !== req.body.email
+    }
     try {
-        // const user = await User.findByIdAndUpdate(req.params.id, req.body, {new: true, runValidators: true})
-        // const user = await User.findById(req.params.id)
-
-        
-        // if(!user)
-        //     return res.status(404).send('No user with that id!')
 
         updates.forEach(update => req.user[update] = req.body[update])
 
+        await req.user.save()
+
+        // if email changed reset verifiedEmail to false and send email verification code 
+        if(emailChanged) {
+            console.log('email changed---------------')
+            req.user.verifiedEmail = false
+            const randomCode = generateRandomCode(4)
+            sendRandomCode(req.user.email, randomCode)
+            req.user.latestVerificationCode = randomCode
+        }
+
+        // to save latest verification code
         await req.user.save()
 
         res.send(req.user)
