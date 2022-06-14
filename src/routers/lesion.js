@@ -21,6 +21,9 @@ const upload = multer({
     }
 })
 router.post('/lesions', auth, upload.single('image'), async (req, res) => {
+    try{
+    if(!req.file)
+        throw "Please upload an image"
     const buffer = await sharp(req.file.buffer).jpeg().toBuffer()
     const lesion = Lesion({
         ...req.body,
@@ -28,7 +31,7 @@ router.post('/lesions', auth, upload.single('image'), async (req, res) => {
         owner: req.user._id
     })
 
-    try{
+    
         await lesion.save()
         res.status(201).send(lesion)
     }catch(e){

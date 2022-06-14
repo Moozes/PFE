@@ -1,266 +1,397 @@
-Signup
-    POST host/users
-    send: 
-        {
-            name: ""
-            email: ""
-            password: ""
-            role: "user" or "doctor"
-        }
+=======================================================
+============= Account Management =======================
+=======================================================
+    Signup
+        POST host/users
+        send: 
+            {
+                name: ""
+                email: ""
+                password: ""
+                role: "user" or "doctor"
+            }
 
-    receive:
-        if success
-        status: 201
-        {
-            user: {
+        receive:
+            if success
+            status: 201
+            {
+                user: {
+                    name
+                    email
+                    role
+                    createdAt
+                    updatedAt
+                    avatarUrl // url string or null
+                },
+                token: "..."
+            }
+
+            if error
+            status: 400
+            {
+                error: string or object
+            }
+
+    ==================================================
+    Login
+        POST host/users/login
+        send: 
+            {
+                name: ""
+                email: ""
+            }
+
+        receive:
+            if success
+            status:200 
+            {
+                user: {
+                    name
+                    email
+                    role
+                    createdAt
+                    updatedAt
+                    avatarUrl // url string or null
+                },
+                token: "..."
+            }
+        
+            if error
+            status: 400
+            {
+                error: "unable to login"
+            }
+
+
+    =========================================================
+    reset password: it has to parts
+        POST host/send-reset-code
+        send: 
+            {
+                email: ""
+            }
+
+        receive:
+            if success
+            status: 200
+            {}
+        
+            if error
+            status: 404 or 400
+            {
+                error: "not found" or {}
+            }
+        =======================================
+        POST host/reset-password
+        send: 
+            {
+                email: ""
+                code: ""
+                newPassword: ""
+            }
+
+        receive:
+            if success
+            status: 200
+            {}
+        
+            if error
+            status: 404 or 400
+            {
+                error: "not found" or object
+            }
+    =======================================================
+    logout
+        POST host/users/logout
+        send:
+            header: Authorization, value: "Bearer ...token_string_here..." 
+            {}
+
+        receive:
+            if success
+            status: 200
+            {}
+        
+            if error
+            status: 401 
+            {
+                error: "please authenticate"
+            }
+
+    ====================================================
+    logoutAll
+        POST host/users/logoutAll
+        send: 
+            header: Authorization, value: "Bearer ...token_string_here..." 
+            {}
+
+        receive:
+            if success
+            status: 200
+            {}
+        
+            if error
+            status: 401
+            {
+                error: "please authenticate"
+            }
+
+
+    ======================================================
+    get my profile information
+        GET host/users/me
+        send: 
+            header: Authorization, value: "Bearer ...token_string_here..." 
+            {}
+
+        receive:
+            if success
+            status: 200
+            {
                 name
                 email
                 role
                 createdAt
                 updatedAt
                 avatarUrl // url string or null
-            },
-            token: "..."
-        }
-    
-        if error
-        status: 400
-        {
-            error: string or object
-        }
+            }
+        
+            if error
+            status: 401
+            {
+                error: "please authenticate"
+            }
 
-==================================================
-Login
-    POST host/users/login
-    send: 
-        {
-            name: ""
-            email: ""
-        }
+    =======================================================
+    delete my user
+        DELETE host/users/me
+        send: 
+            header: Authorization, value: "Bearer ...token_string_here..." 
+            {}
 
-    receive:
-        if success
-        status:200 
-        {
-            user: {
+        receive:
+            if success
+            status: 200
+            {
                 name
                 email
                 role
                 createdAt
                 updatedAt
                 avatarUrl // url string or null
-            },
-            token: "..."
-        }
-    
-        if error
-        status: 400
-        {
-            error: "unable to login"
-        }
+            }
 
+            if error
+            status: 401
+            {
+                error: "please authenticate"
+            }
 
-=========================================================
-reset password: it has to parts
-    POST host/send-reset-code
-    send: 
-        {
-            email: ""
-        }
+    ======================================================
+    upload profile image
+        POST host/users/me/avatar
+        send: 
+            header: Authorization, value: "Bearer ...token_string_here..." 
+            form data with name "avatar"
 
-    receive:
-        if success
-        status: 200
-        {}
-    
-        if error
-        status: 404 or 400
-        {
-            error: "not found" or {}
-        }
-    =======================================
-    POST host/reset-password
-    send: 
-        {
-            email: ""
-            code: ""
-            newPassword: ""
-        }
+        receive:
+            if success
+            status: 200
+            {}
 
-    receive:
-        if success
-        status: 200
-        {}
-    
-        if error
-        status: 404 or 400
-        {
-            error: "not found" or object
-        }
-=======================================================
-logout
-    POST host/users/logout
-    send:
-        header: Authorization, value: "Bearer ...token_string_here..." 
-        {}
+            if error
+            status: 400 //if not an image: jpg, jpeg, png
+            {
+                "error": "Please upload an image" or "file too large"
+            }
 
-    receive:
-        if success
-        status: 200
-        {}
-    
-        if error
-        status: 401 
-        {
-            error: "please authenticate"
-        }
+    =======================================================
+    delete profile image
+        DELETE host/users/me/avatar
+        send: 
+            header: Authorization, value: "Bearer ...token_string_here..." 
+            {}
 
-====================================================
-logoutAll
-    POST host/users/logoutAll
-    send: 
-        header: Authorization, value: "Bearer ...token_string_here..." 
-        {}
+        receive:
+            if success
+            status: 200
+            {}
 
-    receive:
-        if success
-        status: 200
-        {}
-    
-        if error
-        status: 401
-        {
-            error: "please authenticate"
-        }
+            if error
+            status: 500
+            {
+                error: "server error"
+            }
 
+    ========================================================
+    verify email
+        POST host/verify
+        send: 
+            {
+                email
+                code
+            }
 
-======================================================
-get my profile information
-    GET host/users/me
-    send: 
-        header: Authorization, value: "Bearer ...token_string_here..." 
-        {}
+        receive:
+            if success
+            status: 200
+            {}
 
-    receive:
-        if success
-        status: 200
-        {
-            name
-            email
-            role
-            createdAt
-            updatedAt
-            avatarUrl // url string or null
-        }
-    
-        if error
-        status: 401
-        {
-            error: "please authenticate"
-        }
+            if error
+            status: 404 or 400
+            {
+                error: "not found" or {}
+            }
+
 
 =======================================================
-delete my user
-    DELETE host/users/me
-    send: 
-        header: Authorization, value: "Bearer ...token_string_here..." 
-        {}
-
-    receive:
-        if success
-        status: 200
-        {
-            name
-            email
-            role
-            createdAt
-            updatedAt
-            avatarUrl // url string or null
-        }
-
-        if error
-        status: 401
-        {
-             error: "please authenticate"
-        }
-
-======================================================
-upload profile image
-    POST host/users/me/avatar
-    send: 
-        header: Authorization, value: "Bearer ...token_string_here..." 
-        form data with name "avatar"
-
-    receive:
-        if success
-        status: 200
-        {}
-
-        if error
-        status: 400 //if not an image: jpg, jpeg, png
-        {
-            "error": "Please upload an image" or "file too large"
-        }
-
+============= Admin =======================
 =======================================================
-delete profile image
-    DELETE host/users/me/avatar
-    send: 
-        header: Authorization, value: "Bearer ...token_string_here..." 
-        {}
+    verify doctor by admin
+        POST host/users/:id/verifyDoctor
+        send: 
+            header: Authorization, value: "Bearer ...token_string_here..." 
+            {}
 
-    receive:
-        if success
-        status: 200
-        {}
+        receive:
+            if success
+            status: 200
+            {}
 
-        if error
-        status: 500
-        {
-            error: "server error"
-        }
+            if error
+            status: 404 or (401 not authenticated because not logged in) or (403 not authorized because not admin)
+            {
+                error: "Not Found"
+            }
+
+
 
 ========================================================
-verify email
-    POST host/verify
-    send: 
-        {
-            email
-            code
-        }
+============= Lesion Management =======================
+=======================================================
+    upload a lesion
+        POST host/lesions
+        send: 
+            header: Authorization, value: "Bearer ...token_string_here..." 
 
-    receive:
-        if success
-        status: 200
-        {}
+            send multipart/form-data (DONT SEND JSON!!!) with these 2 field names
+            image: binary
+            description: ... (not required)
 
-        if error
-        status: 404 or 400
-        {
-            error: "not found" or {}
-        }
+        receive:
+            if success
+            status: 201
+            {
+                "published": false,
+                "_id": "62a88a77d0de9e5172c91894",
+                "description": "admin lesion2",
+                "owner": "62a46f0ee83cc60d7c959a89",
+                "createdAt": "2022-06-14T13:17:43.922Z",
+                "updatedAt": "2022-06-14T13:17:43.922Z",
+                "__v": 0,
+                "imageUrl": "/lesions/62a88a77d0de9e5172c91894/image"
+            }
+
+            if error
+            status: 400
+            {
+                error: "Please upload an image"
+            }
+
+    ========================================================
+    Get my uploaded lesions
+        GET host/lesions
+        send: 
+            header: Authorization, value: "Bearer ...token_string_here..." 
+            {}
+
+        receive:
+            if success
+            status: 200 
+            [
+                {
+                    "published": false,
+                    "_id": "62a88a77d0de9e5172c91894",
+                    "description": "admin lesion2",
+                    "owner": "62a46f0ee83cc60d7c959a89",
+                    "createdAt": "2022-06-14T13:17:43.922Z",
+                    "updatedAt": "2022-06-14T13:17:43.922Z",
+                    "__v": 0,
+                    "imageUrl": "/lesions/62a88a77d0de9e5172c91894/image"
+                },
+                {
+                    "published": false,
+                    "_id": "62a88a77d0de9e5172c91894",
+                    "description": "admin lesion2",
+                    "owner": "62a46f0ee83cc60d7c959a89",
+                    "createdAt": "2022-06-14T13:17:43.922Z",
+                    "updatedAt": "2022-06-14T13:17:43.922Z",
+                    "__v": 0,
+                    "imageUrl": "/lesions/62a88a77d0de9e5172c91894/image"
+                }
+            ]
+
+            if error 
+            status: 500
+            {}
+
+    ========================================================
+    Delete a lesion
+        DELETE host/lesion/:id
+        send: 
+            header: Authorization, value: "Bearer ...token_string_here..." 
+            {}
+
+        receive:
+            if success
+            status: 200
+            {
+                "published": false,
+                "_id": "62a88a77d0de9e5172c91894",
+                "description": "admin lesion2",
+                "owner": "62a46f0ee83cc60d7c959a89",
+                "createdAt": "2022-06-14T13:17:43.922Z",
+                "updatedAt": "2022-06-14T13:17:43.922Z",
+                "__v": 0,
+                "imageUrl": "/lesions/62a88a77d0de9e5172c91894/image"
+            }
+
+            if error
+            status: 404 or 500
+            {
+                error: "Not Found!"
+            }
 
 
+    =====================================================
+    Publish/Unpublish a lesion
+        PATCH host/lesions/:id
+        send: 
+            header: Authorization, value: "Bearer ...token_string_here..." 
+            {
+                published: true or false
+            }
 
-====================================================
-verify doctor by admin
-    POST host/users/:id/verifyDoctor
-    send: 
-        header: Authorization, value: "Bearer ...token_string_here..." 
-        {}
+        receive:
+            if success
+            status: 200
+            {
+                "published": false,
+                "_id": "62a88a77d0de9e5172c91894",
+                "description": "admin lesion2",
+                "owner": "62a46f0ee83cc60d7c959a89",
+                "createdAt": "2022-06-14T13:17:43.922Z",
+                "updatedAt": "2022-06-14T13:17:43.922Z",
+                "__v": 0,
+                "imageUrl": "/lesions/62a88a77d0de9e5172c91894/image"
+            }
 
-    receive:
-        if success
-        status: 200
-        {}
-
-        if error
-        status: 404 or (401 not authenticated because not logged in) or (403 not authorized because not admin)
-        {
-            error: "Not Found"
-        }
-
-
+            if error
+            status: 404 or 400 (if you try to update another field) 
+            {
+                error: "Not Found!"
+            }
+            
 
 
 Notes: 
@@ -282,6 +413,7 @@ Notes:
 
     METHOD host/users
     send: 
+        header: Authorization, value: "Bearer ...token_string_here..." 
         {}
 
     receive:
