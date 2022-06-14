@@ -62,7 +62,6 @@
                 error: "unable to login"
             }
 
-
     =========================================================
     reset password: it has to parts
         POST host/send-reset-code
@@ -135,7 +134,6 @@
             {
                 error: "please authenticate"
             }
-
 
     ======================================================
     get my profile information
@@ -243,6 +241,42 @@
                 error: "not found" or {}
             }
 
+    =====================================================
+    Update profile
+        PATCH host/users/me
+        send: 
+            header: Authorization, value: "Bearer ...token_string_here..." 
+            {
+                name: 
+                email: 
+            }
+
+        receive:
+            if success
+            status: 200
+            {
+                "_id": "62a88ee5d96a5b5a93f323fa",
+                "name": "moussa3 updated",
+                "email": "example3@example.com",
+                "role": "doctor",
+                "createdAt": "2022-06-14T13:36:37.151Z",
+                "updatedAt": "2022-06-14T14:07:19.504Z",
+                "__v": 2,
+                "avatarUrl": null
+            }
+
+            if error
+            status: 400 if you try to update other fields like password or role..., or mongoose validation error
+            {
+                error: 'Cant update those properties' or object
+            }
+
+
+
+
+
+
+
 
 =======================================================
 ============= Admin =======================
@@ -304,46 +338,53 @@
 
 
 
+
+
 ========================================================
 ============= Doctors and admin=======================
 =======================================================
     Get published lesions
-    METHOD host/lesions/published
-    send: 
-        header: Authorization, value: "Bearer ...token_string_here..." 
-        {}
+        METHOD host/lesions/published
+        send: 
+            header: Authorization, value: "Bearer ...token_string_here..." 
+            {}
 
-    receive:
-        if success
-        status: 200 
-        [
-            {
-                "published": true,
-                "_id": "62a882f4e103ca45d1c5fe18",
-                "description": "admin lesion2",
-                "owner": "62a46f0ee83cc60d7c959a89",
-                "createdAt": "2022-06-14T12:45:40.928Z",
-                "updatedAt": "2022-06-14T13:05:55.744Z",
-                "__v": 0,
-                "imageUrl": "/lesions/62a882f4e103ca45d1c5fe18/image"
-            },
-            {
-                "published": true,
-                "_id": "62a882f4e103ca45d1c5fe18",
-                "description": "admin lesion2",
-                "owner": "62a46f0ee83cc60d7c959a89",
-                "createdAt": "2022-06-14T12:45:40.928Z",
-                "updatedAt": "2022-06-14T13:05:55.744Z",
-                "__v": 0,
-                "imageUrl": "/lesions/62a882f4e103ca45d1c5fe18/image"
-            },
-        ]
+        receive:
+            if success
+            status: 200 
+            [
+                {
+                    "published": true,
+                    "_id": "62a882f4e103ca45d1c5fe18",
+                    "description": "admin lesion2",
+                    "owner": "62a46f0ee83cc60d7c959a89",
+                    "createdAt": "2022-06-14T12:45:40.928Z",
+                    "updatedAt": "2022-06-14T13:05:55.744Z",
+                    "__v": 0,
+                    "imageUrl": "/lesions/62a882f4e103ca45d1c5fe18/image"
+                },
+                {
+                    "published": true,
+                    "_id": "62a882f4e103ca45d1c5fe18",
+                    "description": "admin lesion2",
+                    "owner": "62a46f0ee83cc60d7c959a89",
+                    "createdAt": "2022-06-14T12:45:40.928Z",
+                    "updatedAt": "2022-06-14T13:05:55.744Z",
+                    "__v": 0,
+                    "imageUrl": "/lesions/62a882f4e103ca45d1c5fe18/image"
+                },
+            ]
 
-        if error
-        status: 500
-        {
-            error: something
-        }
+            if error
+            status: 500
+            {
+                error: something
+            }
+
+
+
+
+
 
 ========================================================
 ============= Lesion Management =======================
@@ -440,7 +481,6 @@
             {
                 error: "Not Found!"
             }
-
 
     =====================================================
     Publish/Unpublish a lesion
