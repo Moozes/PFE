@@ -28,9 +28,9 @@ router.post('/users', async (req, res) => {
         await user.save()
 
         // send verification code email, save random code in db, send 200 ok
-        const randomCode = generateRandomCode(4)
-        sendRandomCode(user.email, randomCode)
-        user.latestVerificationCode = randomCode
+        // const randomCode = generateRandomCode(4)
+        // sendRandomCode(user.email, randomCode)
+        // user.latestVerificationCode = randomCode
 
         // generateAuthToken will save a second time
         const token = await user.generateAuthToken()
@@ -127,9 +127,9 @@ router.patch('/users/me', auth, async (req, res) => {
         if(emailChanged) {
             console.log('email changed---------------')
             req.user.verifiedEmail = false
-            const randomCode = generateRandomCode(4)
-            sendRandomCode(req.user.email, randomCode)
-            req.user.latestVerificationCode = randomCode
+            // const randomCode = generateRandomCode(4)
+            // sendRandomCode(req.user.email, randomCode)
+            // req.user.latestVerificationCode = randomCode
         }
 
         // to save latest verification code
