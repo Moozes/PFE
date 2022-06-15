@@ -1,7 +1,8 @@
 const express = require('express')
 const Lesion = require('../models/lesion')
 const auth = require('../middleware/auth')
-const authorization = require('../middleware/authorization')
+const authorization = require('../middleware/authorization').authorization
+const getPublishedAuthorization = require('../middleware/authorization').getPublishedAuthorization
 const ROLES = require('../middleware/roles')
 const multer = require('multer')
 const sharp = require('sharp')
@@ -71,7 +72,7 @@ router.get('/lesions', auth, async (req, res) => {
 })
 
 // Get published lesions, this is for doctors and admin
-router.get('/lesions/published', auth, authorization([ROLES[0], ROLES[1]]), async (req, res) => {
+router.get('/lesions/published', auth, getPublishedAuthorization([ROLES[0], ROLES[1]]), async (req, res) => {
     try{
         const publishedLesions = await Lesion.find({published: true})
         res.send(publishedLesions)

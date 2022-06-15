@@ -1,7 +1,7 @@
 const express = require('express')
 const User = require('../models/user')
 const auth = require('../middleware/auth')
-const authorization = require('../middleware/authorization')
+const authorization = require('../middleware/authorization').authorization
 const ROLES = require('../middleware/roles')
 
 
@@ -18,14 +18,7 @@ router.get('/users', auth, authorization([ROLES[0]]), async (req, res) => {
     }
 })
 
-router.get('/users/doctors', auth, authorization([ROLES[0]]), async (req, res) => {
-    try{
-        const doctors = await User.find({role: ROLES[1]})
-        res.send(doctors)
-    }catch(e) {
-        res.status(500).send({error: e})
-    }
-})
+
 
 router.post('/users/:id/verifyDoctor',auth, authorization([ROLES[0]]), async (req, res) => {
     try{

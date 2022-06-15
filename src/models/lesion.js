@@ -15,6 +15,17 @@ const lesionSchema = mongoose.Schema({
         default: false
     },
     // TODO: add comments sub shcema here
+    comments: [{
+        user: {
+            _id: mongoose.Schema.Types.ObjectId,
+            email: String,
+            name: String
+        },
+        text: {
+            type: String,
+            required: true
+        }
+    }],
     owner: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,

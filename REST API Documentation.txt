@@ -319,7 +319,7 @@
             {}
 
     ======================================================
-    verify doctor by admin
+    verify doctor
         POST host/users/:id/verifyDoctor
         send: 
             header: Authorization, value: "Bearer ...token_string_here..." 
@@ -337,8 +337,27 @@
             }
 
 
+==========================================================================
+============= Doctors and Admin and owner of lesion =======================
+==========================================================================
+    comment on a lesion
+        METHOD host/lesions/:id/comments
+        send: 
+            header: Authorization, value: "Bearer ...token_string_here..." 
+            {
+                text  "...comment text..."
+            }
 
+        receive:
+            if success
+            status: 201 created
+            {}
 
+            if error
+            status:  400 (validation error) 404 or (lesion not found) 
+            {
+                error: msg or object
+            }
 
 
 ========================================================
@@ -387,9 +406,9 @@
 
 
 
-========================================================
-============= Lesion Management =======================
-=======================================================
+===================================================================================
+============= Lesion Management: Doctors and Admin and User =======================
+===================================================================================
     upload a lesion
         POST host/lesions
         send: 
@@ -457,7 +476,7 @@
             {}
 
     ========================================================
-    Delete a lesion
+    Delete one of my lesions
         DELETE host/lesion/:id
         send: 
             header: Authorization, value: "Bearer ...token_string_here..." 
@@ -484,7 +503,7 @@
             }
 
     =====================================================
-    Publish/Unpublish a lesion
+    Publish/Unpublish one of my lesions
         PATCH host/lesions/:id
         send: 
             header: Authorization, value: "Bearer ...token_string_here..." 

@@ -1,45 +1,14 @@
 require('./db/mongoose')
 const express = require('express')
-const userRouter = require('./routers/accountManagement')
-const taskRouter = require('./routers/task')
+const accountManagementRouter = require('./routers/accountManagement')
+const userRouter = require('./routers/user')
 const adminRouter = require('./routers/admin')
+const doctorRouter = require('./routers/doctor')
 const lesionRouter = require('./routers/lesion')
 const User = require('./models/user')
 
 const app = express()
-const PORT = process.env.PORT //|| 3001 removed because we have an environment variable now in dev.env
-
-// a middleware always above the other calls for app.use()
-// app.use((req, res, next) => {
-//     if(req.method === 'GET')
-//         res.send({error: 'GET Not Allowed'})
-//     else
-//         next()
-// })
-
-// app.use((req, res, next) => {
-//     res.status(503).send({error: 'This Site is in Maintenance'})
-// })
-
-
-
-// const multer = require('multer')
-// const upload = multer({
-//     dest: 'images',
-//     limits: {
-//         fileSize: 1000000
-//     },
-//     fileFilter(req, file, cb) {
-//         if(!file.originalname.match(/\.(doc|docx)$/))
-//             return cb(new Error('Please upload a Word document'))
-//         cb(undefined, true)
-//     }
-// })
-// app.post('/upload', upload.single('upload'), (req, res) => {
-//     res.send()
-// }, (error, req, res, next) => {
-//     res.status(400).send({error: error.message})
-// })
+const PORT = process.env.PORT 
 
 
 // name admin, email khodja.moussa@yahoo.com, password helloadmin, verifiedEmail true, role admin
@@ -66,10 +35,11 @@ createAdmin()
 
 
 app.use(express.json())
-app.use(userRouter)
-app.use(taskRouter)
+app.use(accountManagementRouter)
 app.use(adminRouter)
 app.use(lesionRouter)
+app.use(doctorRouter)
+app.use(userRouter)
 app.use((req, res, next) => {
     res.status(404).send({error: "Not Found!"})
 })
@@ -78,20 +48,3 @@ app.use((req, res, next) => {
 app.listen(PORT, () => {
     console.log('server is up on ', PORT)
 })
-
-
-
-// const Task = require('./models/task')
-// const User = require('./models/user')
-
-// const foo = async () => {
-//     // const task = await Task.findById('628aad0ce81979989d9ef067')
-//     // await task.populate('owner').execPopulate()
-//     // console.log(task.owner)
-    
-//     const user = await User.findById('628aabe896b3e89593e8d7a3')
-//     await user.populate('tasks').execPopulate()
-//     console.log(user.tasks)
-// }
-
-// foo()
