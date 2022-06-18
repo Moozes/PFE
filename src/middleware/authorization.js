@@ -54,16 +54,61 @@ const ROLES = require('./roles')
 
 
 
+// admin only
+const adminAuthorization = (req, res, next) => {
+    try{
+        if(req.user.role !== ROLES.ADMIN)
+            throw "Not Authorized, Admin only!"
+        next()
+    }catch(e) {
+        res.status(403).send({error: e})
+    }
+}
+
+// admin & verified doctor only
+const adminDoctorAuthorization = (req, res, next) => {
+    try{
+        if(req.user.role === ROLES.DOCTOR && !req.user.verifiedDoctor)
+            throw "Not Authorized, you are not a verified doctor"
+
+        if(req.user.role !== ROLES.ADMIN && req.user.role !== ROLES.DOCTOR)
+            throw "Not Authorized, Admin & Doctors only"
+        next()
+    }catch(e) {
+        res.status(403).send({error: e})
+    }
+}
+
+// admin & verified doctor & owner of lesion only
+const adminDoctorOwnerAuthorization = async (req, res, next) => {
+    try{
+        // check if commenter is owner of comment
+        const lesion = await Lesion.findById(req.params.id)
+        if(!lesion)
+            return res.status(404).send({error: "Not Found!"})
+        if(lesion.owner.equals(req.user._id))
+            return next()
+
+        // not owner, check if verified doctor
+        if(req.user.role === ROLES.DOCTOR && !req.user.verifiedDoctor)
+            throw "Not Authorized, you are not a verified doctor"
+
+        if(req.user.role !== ROLES.ADMIN && req.user.role !== ROLES.DOCTOR)
+            throw "Not Authorized, Admin & Doctors & Owner only"
+        next()
+    }catch(e) {
+        res.status(403).send({error: e})
+    }
 
 
-
+}
 
 
 
 module.exports = {
-    authorization, 
-    commentAuthorization,
-    getPublishedAuthorization
+    adminAuthorization,
+    adminDoctorAuthorization,
+    adminDoctorOwnerAuthorization
 }
 
 

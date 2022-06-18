@@ -58,7 +58,7 @@ const userSchema = mongoose.Schema({
     role: {
         type: String,
         required: true,
-        enum: ROLES
+        enum: [ROLES.ADMIN, ROLES.DOCTOR, ROLES.USER]
     },
     verifiedDoctor: {
         type: Boolean,

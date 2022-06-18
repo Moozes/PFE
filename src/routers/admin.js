@@ -1,14 +1,13 @@
 const express = require('express')
 const User = require('../models/user')
 const auth = require('../middleware/auth')
-const authorization = require('../middleware/authorization').authorization
-const ROLES = require('../middleware/roles')
+const {adminAuthorization} = require('../middleware/authorization')
 
 
 const router = express.Router()
 
 
-router.get('/users', auth, authorization([ROLES[0]]), async (req, res) => {
+router.get('/users', auth, adminAuthorization, async (req, res) => {
     try{
         const users = await User.find({})
         res.send(users)
@@ -20,7 +19,8 @@ router.get('/users', auth, authorization([ROLES[0]]), async (req, res) => {
 
 
 
-router.post('/users/:id/verifyDoctor',auth, authorization([ROLES[0]]), async (req, res) => {
+// TODO: make it a general update route with patch method but only allow verifiedDoctor to be updated 
+router.post('/users/:id/verifyDoctor',auth, adminAuthorization, async (req, res) => {
     try{
         const user = await User.findById(req.params.id)
         if(!user)

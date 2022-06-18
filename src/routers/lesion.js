@@ -1,11 +1,10 @@
 const express = require('express')
 const Lesion = require('../models/lesion')
 const auth = require('../middleware/auth')
-const authorization = require('../middleware/authorization').authorization
-const getPublishedAuthorization = require('../middleware/authorization').getPublishedAuthorization
 const ROLES = require('../middleware/roles')
 const multer = require('multer')
 const sharp = require('sharp')
+const {adminDoctorAuthorization, adminDoctorOwnerAuthorization} = require('../middleware/authorization')
 
 
 // upload a lesion
@@ -71,8 +70,9 @@ router.get('/lesions', auth, async (req, res) => {
     }
 })
 
+// TODO: maybe sort by newest first
 // Get published lesions, this is for doctors and admin
-router.get('/lesions/published', auth, getPublishedAuthorization([ROLES[0], ROLES[1]]), async (req, res) => {
+router.get('/lesions/published', auth, adminDoctorAuthorization, async (req, res) => {
     try{
         const publishedLesions = await Lesion.find({published: true})
         res.send(publishedLesions)
@@ -81,6 +81,7 @@ router.get('/lesions/published', auth, getPublishedAuthorization([ROLES[0], ROLE
     }
 })
 
+// delete my lesion
 router.delete('/lesions/:id', auth, async (req, res) => {
     try{
         const lesion = await Lesion.findOneAndDelete({_id: req.params.id, owner: req.user._id})
@@ -116,12 +117,30 @@ router.patch('/lesions/:id', auth, async (req, res) => {
 })
 
 
+router.post('/lesions/:id/comments', auth, adminDoctorOwnerAuthorization, async (req, res) => {
+    try{
+        const lesion = await Lesion.findById(req.params.id)
+        
+        // this is done in authorization middleware
+        // if(!lesion)
+        //     return res.status(404).send({error: "Not Found!"})
 
+        const comment = {
+            user: {
+                _id: req.user._id,
+                email: req.user.email, 
+                name: req.user.name
+            },
+            text: req.body.text
+        }
+        lesion.comments = lesion.comments.concat(comment)
 
-router.post('/test', (req, res) => {
-    console.log(req.body)
-    res.send()
+        await lesion.save()
+        res.status(201).send(lesion)
+    }catch(e) {
+        console.log(e)
+        res.status(400).send({error: e})
+    }
 })
-
 
 module.exports = router
