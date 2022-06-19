@@ -5,6 +5,7 @@ const userRouter = require('./routers/user')
 const adminRouter = require('./routers/admin')
 const lesionRouter = require('./routers/lesion')
 const User = require('./models/user')
+const cors = require('cors')
 
 const app = express()
 const PORT = process.env.PORT 
@@ -32,7 +33,7 @@ const createAdmin = async () => {
 createAdmin()
 
 
-
+app.use(cors())
 app.use(express.json())
 app.use(accountManagementRouter)
 app.use(adminRouter)

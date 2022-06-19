@@ -24,11 +24,16 @@ router.post('/lesions', auth, upload.single('image'), async (req, res) => {
     try{
     if(!req.file)
         throw "Please upload an image"
+    const owner = {
+        _id: req.user._id,
+        name: req.user.name,
+        email: req.user.email,
+    }
     const buffer = await sharp(req.file.buffer).jpeg().toBuffer()
     const lesion = Lesion({
         ...req.body,
         image: buffer,
-        owner: req.user._id
+        owner
     })
 
     
@@ -66,6 +71,7 @@ router.get('/lesions', auth, async (req, res) => {
         await req.user.populate('lesions').execPopulate()
         res.send(req.user.lesions)
     }catch(e) {
+        console.log(e)
         res.status(500).send({error: e})
     }
 })
@@ -84,7 +90,7 @@ router.get('/lesions/published', auth, adminDoctorAuthorization, async (req, res
 // delete my lesion
 router.delete('/lesions/:id', auth, async (req, res) => {
     try{
-        const lesion = await Lesion.findOneAndDelete({_id: req.params.id, owner: req.user._id})
+        const lesion = await Lesion.findOneAndDelete({_id: req.params.id, "owner._id": req.user._id})
         if(!lesion)
             return res.status(404).send({error: "Not Found!"})
         res.send(lesion)
@@ -105,7 +111,7 @@ router.patch('/lesions/:id', auth, async (req, res) => {
         return res.status(400).send({error: "You can only update 'published field'"})
 
     try{
-        const lesion = await Lesion.findOne({_id: req.params.id, owner: req.user._id})
+        const lesion = await Lesion.findOne({_id: req.params.id, "owner._id": req.user._id})
         if(!lesion)
             return res.status(404).send({error: "Not Found!"})
         updates.forEach(update => lesion[update] = req.body[update])

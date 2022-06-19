@@ -27,9 +27,9 @@ const lesionSchema = mongoose.Schema({
         }
     }],
     owner: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'User'
+        _id: mongoose.Schema.Types.ObjectId,
+        email: String,
+        name: String
     }
 }, {
     // this will add 2 properties automatically, createdAt, updatedAt

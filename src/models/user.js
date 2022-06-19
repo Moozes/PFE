@@ -73,7 +73,7 @@ const userSchema = mongoose.Schema({
 userSchema.virtual('lesions', {
     ref: 'Lesion',
     localField: '_id',
-    foreignField: 'owner'
+    foreignField: 'owner._id'
 })
 
 // toJSON is already defined by mongoose, here we are redifining it to not return password and tokens 

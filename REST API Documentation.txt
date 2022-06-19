@@ -351,7 +351,31 @@
         receive:
             if success
             status: 201 created
-            {}
+            {
+                "_id": "62af496cba0a8915bb188656",
+                "published": false,
+                "description": "admin",
+                "createdAt": "2022-06-19T16:06:04.305Z",
+                "updatedAt": "2022-06-19T16:06:40.005Z",
+                "imageUrl": "/lesions/62af496cba0a8915bb188656/image"
+                "owner": {
+                    "_id": "62ab30270362cf621ada2e30",
+                    "name": "admin",
+                    "email": "khodja.moussa@yahoo.com"
+                },
+                "comments": [
+                    {
+                        "_id": "62af4990ba0a8915bb188657",
+                        "user": {
+                            "_id": "62ab30270362cf621ada2e30",
+                            "email": "khodja.moussa@yahoo.com",
+                            "name": "admin"
+                        },
+                        "text": "from admin"
+                    }
+                ],
+                "__v": 1,
+            }
 
             if error
             status:  400 (validation error) 404 or (lesion not found) 
@@ -377,7 +401,11 @@
                     "published": true,
                     "_id": "62a882f4e103ca45d1c5fe18",
                     "description": "admin lesion2",
-                    "owner": "62a46f0ee83cc60d7c959a89",
+                    "owner": {
+                        _id: "",
+                        name: "",
+                        email: ""
+                    },
                     "createdAt": "2022-06-14T12:45:40.928Z",
                     "updatedAt": "2022-06-14T13:05:55.744Z",
                     "__v": 0,
@@ -387,7 +415,11 @@
                     "published": true,
                     "_id": "62a882f4e103ca45d1c5fe18",
                     "description": "admin lesion2",
-                    "owner": "62a46f0ee83cc60d7c959a89",
+                    "owner": {
+                        _id: "",
+                        name: "",
+                        email: ""
+                    },
                     "createdAt": "2022-06-14T12:45:40.928Z",
                     "updatedAt": "2022-06-14T13:05:55.744Z",
                     "__v": 0,
@@ -425,7 +457,11 @@
                 "published": false,
                 "_id": "62a88a77d0de9e5172c91894",
                 "description": "admin lesion2",
-                "owner": "62a46f0ee83cc60d7c959a89",
+                "owner": {
+                    _id,
+                    name,
+                    email
+                }
                 "createdAt": "2022-06-14T13:17:43.922Z",
                 "updatedAt": "2022-06-14T13:17:43.922Z",
                 "__v": 0,
@@ -453,7 +489,11 @@
                     "published": false,
                     "_id": "62a88a77d0de9e5172c91894",
                     "description": "admin lesion2",
-                    "owner": "62a46f0ee83cc60d7c959a89",
+                    "owner": {
+                        _id,
+                        name,
+                        email
+                    },
                     "createdAt": "2022-06-14T13:17:43.922Z",
                     "updatedAt": "2022-06-14T13:17:43.922Z",
                     "__v": 0,
@@ -463,7 +503,11 @@
                     "published": false,
                     "_id": "62a88a77d0de9e5172c91894",
                     "description": "admin lesion2",
-                    "owner": "62a46f0ee83cc60d7c959a89",
+                    "owner": {
+                        _id,
+                        name,
+                        email
+                    },
                     "createdAt": "2022-06-14T13:17:43.922Z",
                     "updatedAt": "2022-06-14T13:17:43.922Z",
                     "__v": 0,
@@ -518,7 +562,11 @@
                 "published": false,
                 "_id": "62a88a77d0de9e5172c91894",
                 "description": "admin lesion2",
-                "owner": "62a46f0ee83cc60d7c959a89",
+                "owner": {
+                    _id,
+                    name,
+                    email
+                }
                 "createdAt": "2022-06-14T13:17:43.922Z",
                 "updatedAt": "2022-06-14T13:17:43.922Z",
                 "__v": 0,
