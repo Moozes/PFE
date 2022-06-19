@@ -56,6 +56,7 @@ router.patch('/users/me', auth, async (req, res) => {
 
 router.delete('/users/me', auth, async (req, res) => {
     try {
+        console.log('deleteing........')
         // const user = await User.findByIdAndDelete(req.params.id)
         // if(!user)
         //     return res.status(404).send('No user with that id')
