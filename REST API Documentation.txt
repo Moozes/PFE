@@ -1,3 +1,31 @@
+Signup---
+Login---
+reset password---
+logout---
+logoutAll
+get my profile information
+delete my user---
+upload profile image
+delete profile image
+verify email
+Update profile
+get all doctors
+
+admin
+    varify a doctor
+
+admin & doctor
+    get published lesions
+
+admin & doctor & owner
+    comment on a lesion
+
+user
+    upload a lesion
+    get my uploaded lesions
+    delete one of my lesions
+    Publish/Unpublish one of my lesions
+    
 =======================================================
 ============= Account Management =======================
 =======================================================
@@ -274,14 +302,7 @@
 
 
 
-
-
-
-
-
-=======================================================
-============= Admin =======================
-=======================================================
+======================================================================
     Get all doctors
         GET host/users/doctors
         send: 
@@ -318,7 +339,12 @@
             status: 500
             {}
 
-    ======================================================
+
+
+
+=======================================================
+============= Admin =======================
+=======================================================
     verify doctor
         POST host/users/:id/verifyDoctor
         send: 
@@ -439,7 +465,7 @@
 
 
 ===================================================================================
-============= Lesion Management: Doctors and Admin and User =======================
+============= Lesion Management: User =======================
 ===================================================================================
     upload a lesion
         POST host/lesions
@@ -593,7 +619,7 @@ Notes:
     - permissions
         admin has 3 permissions: admin, doctor, user
         doctor has 2 permissions: doctor, user
-        user has 1 permissions : user
+        user has 1 permission : user
 
 
 
