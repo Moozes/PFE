@@ -5,6 +5,7 @@ const multer = require('multer')
 const sharp = require('sharp')
 const { sendWelcomeMail, sendRandomCode } = require('../email/account')
 const generateRandomCode = require('../utils/generateRandom')
+const ROLES = require('../middleware/roles')
 
 const router = express.Router()
 
@@ -39,9 +40,9 @@ router.patch('/users/me', auth, async (req, res) => {
         if(emailChanged) {
             console.log('email changed---------------')
             req.user.verifiedEmail = false
-            // const randomCode = generateRandomCode(4)
+            const randomCode = generateRandomCode(4)
             // sendRandomCode(req.user.email, randomCode)
-            // req.user.latestVerificationCode = randomCode
+            req.user.latestVerificationCode = randomCode
         }
 
         // to save latest verification code
@@ -116,7 +117,7 @@ router.get('/users/:id/avatar', async (req, res) => {
     try{
         const user = await User.findById(req.params.id)
         if(!user || !user.avatar)
-            throw new Error('Not Found!')
+            throw "Not Found"
 
         res.set('Content-Type', 'image/jpg')
         res.send(user.avatar)
@@ -129,9 +130,10 @@ router.get('/users/:id/avatar', async (req, res) => {
 // read all doctors
 router.get('/users/doctors', auth, async (req, res) => {
     try{
-        const doctors = await User.find({role: ROLES[1]})
+        const doctors = await User.find({role: ROLES.DOCTOR})
         res.send(doctors)
     }catch(e) {
+        console.log(e)
         res.status(500).send({error: e})
     }
 })

@@ -1,0 +1,24 @@
+Flask API 
+
+
+	Method: POST
+
+	Endpoint: "http://localhost:5000/prediction"
+			Note:This part [http://localhost:5000] can be changed, Therefore i recommend that you put the Link as a variable in the dev.env file.
+
+	Request:
+		Send an image['png', 'jpg', 'jpeg']. 
+		[Postman: Body>form-data>Key=image-for-prediction]
+
+	Response:
+		Property Name	Type	Description
+
+		probability	String	The probability of the result predicted by the model.
+		result		String	The result of the model prediction, Can be "Melanoma" or "Non-melanoma".
+		
+		Example: 
+		{
+ 		   "probability": "0.7918069",
+ 		   "result": "Non-melanoma"
+		}
+

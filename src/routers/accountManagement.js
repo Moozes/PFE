@@ -23,9 +23,9 @@ router.post('/users', async (req, res) => {
         await user.save()
 
         // send verification code email, save random code in db, send 200 ok
-        // const randomCode = generateRandomCode(4)
+        const randomCode = generateRandomCode(4)
         // sendRandomCode(user.email, randomCode)
-        // user.latestVerificationCode = randomCode
+        user.latestVerificationCode = randomCode
 
         // generateAuthToken will save a second time
         const token = await user.generateAuthToken()
@@ -56,7 +56,7 @@ router.post('/verify', async (req, res) => {
             return res.status(404).send({error: "not found"})
         // extract code from db, if equal reset password
         if(!(code === user.latestVerificationCode))
-            throw new Error()
+            throw "Wrong Code"
 
         user.verifiedEmail = true
         // this could throw validation errors, that is why i ran user.save() 2 times
@@ -81,7 +81,7 @@ router.post('/send-reset-code', async (req, res) => {
         
         const randomCode = generateRandomCode(4)
         // send email, if success, save random code in db, send 200 ok
-        const info = await sendRandomCode(user.email, randomCode)
+        // const info = await sendRandomCode(user.email, randomCode)
         user.latestResetPasswordCode = randomCode
         await user.save()
         res.send()
@@ -100,7 +100,7 @@ router.post('/reset-password', async (req, res) => {
             return res.status(404).send({error: "not found"})
         // extract code from db, if equal reset password
         if(!(code === user.latestResetPasswordCode))
-            throw new Error()
+            throw "Wrong Code"
 
         user.password = newPassword
         // this could throw validation errors, that is why i ran user.save() 2 times

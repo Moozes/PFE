@@ -28,7 +28,9 @@ router.post('/lesions', auth, upload.single('image'), async (req, res) => {
         _id: req.user._id,
         name: req.user.name,
         email: req.user.email,
+        avatarUrl: req.user.avatar ? `/users/${req.user._id}/avatar` : null
     }
+    console.log(owner)
     const buffer = await sharp(req.file.buffer).jpeg().toBuffer()
     const lesion = Lesion({
         ...req.body,

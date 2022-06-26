@@ -1,0 +1,43 @@
+TODO
+    handle the absence of profile image in the front, avatarUrl === null
+    upload lesion: add flask connection 
+    add messaging feature
+        router
+        model
+        documentation
+        testing
+
+
+
+
+TEST
+    Signup---
+    Login---
+    forget password---
+    logout---
+    logoutAll--- 
+    get my profile information---
+    delete my user---
+    upload profile image---
+    delete profile image---
+    verify email---
+    Update profile---
+    get all doctors---
+
+    admin
+        varify a doctor---
+
+    admin & doctor
+        get published lesions---
+
+    admin & doctor & owner
+        comment on a lesion---
+
+    user
+        upload a lesion--- still
+        get my uploaded lesions--- 
+        delete one of my lesions---
+        Publish/Unpublish one of my lesions---
+
+
+        

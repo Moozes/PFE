@@ -86,7 +86,7 @@ const adminDoctorOwnerAuthorization = async (req, res, next) => {
         const lesion = await Lesion.findById(req.params.id)
         if(!lesion)
             return res.status(404).send({error: "Not Found!"})
-        if(lesion.owner.equals(req.user._id))
+        if(lesion.owner._id.equals(req.user._id))
             return next()
 
         // not owner, check if verified doctor

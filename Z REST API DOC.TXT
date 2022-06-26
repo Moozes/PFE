@@ -1,6 +1,6 @@
 Signup---
 Login---
-reset password---
+forget password---
 logout---
 logoutAll
 get my profile information
@@ -91,7 +91,7 @@ user
             }
 
     =========================================================
-    reset password: it has to parts
+    forget password: it has to parts
         POST host/send-reset-code
         send: 
             {
@@ -387,7 +387,8 @@ user
                 "owner": {
                     "_id": "62ab30270362cf621ada2e30",
                     "name": "admin",
-                    "email": "khodja.moussa@yahoo.com"
+                    "email": "khodja.moussa@yahoo.com",
+                    avatarUrl
                 },
                 "comments": [
                     {
@@ -431,20 +432,7 @@ user
                         _id: "",
                         name: "",
                         email: ""
-                    },
-                    "createdAt": "2022-06-14T12:45:40.928Z",
-                    "updatedAt": "2022-06-14T13:05:55.744Z",
-                    "__v": 0,
-                    "imageUrl": "/lesions/62a882f4e103ca45d1c5fe18/image"
-                },
-                {
-                    "published": true,
-                    "_id": "62a882f4e103ca45d1c5fe18",
-                    "description": "admin lesion2",
-                    "owner": {
-                        _id: "",
-                        name: "",
-                        email: ""
+                        avatarUrl: url or null
                     },
                     "createdAt": "2022-06-14T12:45:40.928Z",
                     "updatedAt": "2022-06-14T13:05:55.744Z",
@@ -486,7 +474,8 @@ user
                 "owner": {
                     _id,
                     name,
-                    email
+                    email,
+                    avatarUrl
                 }
                 "createdAt": "2022-06-14T13:17:43.922Z",
                 "updatedAt": "2022-06-14T13:17:43.922Z",
@@ -518,7 +507,8 @@ user
                     "owner": {
                         _id,
                         name,
-                        email
+                        email,
+                        avatarUrl
                     },
                     "createdAt": "2022-06-14T13:17:43.922Z",
                     "updatedAt": "2022-06-14T13:17:43.922Z",
@@ -559,7 +549,12 @@ user
                 "published": false,
                 "_id": "62a88a77d0de9e5172c91894",
                 "description": "admin lesion2",
-                "owner": "62a46f0ee83cc60d7c959a89",
+                "owner": {
+                    _id
+                    name
+                    email
+                    avatarUrl
+                },
                 "createdAt": "2022-06-14T13:17:43.922Z",
                 "updatedAt": "2022-06-14T13:17:43.922Z",
                 "__v": 0,
@@ -591,7 +586,8 @@ user
                 "owner": {
                     _id,
                     name,
-                    email
+                    email,
+                    avatarUrl
                 }
                 "createdAt": "2022-06-14T13:17:43.922Z",
                 "updatedAt": "2022-06-14T13:17:43.922Z",
