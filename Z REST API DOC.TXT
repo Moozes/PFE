@@ -378,30 +378,34 @@ user
             if success
             status: 201 created
             {
-                "_id": "62af496cba0a8915bb188656",
+                "_id": "62a88a77d0de9e5172c91894",
+                "description": "admin lesion2",
                 "published": false,
-                "description": "admin",
-                "createdAt": "2022-06-19T16:06:04.305Z",
-                "updatedAt": "2022-06-19T16:06:40.005Z",
-                "imageUrl": "/lesions/62af496cba0a8915bb188656/image"
-                "owner": {
-                    "_id": "62ab30270362cf621ada2e30",
-                    "name": "admin",
-                    "email": "khodja.moussa@yahoo.com",
-                    avatarUrl
-                },
+                "imageUrl": "/lesions/62a88a77d0de9e5172c91894/image"
+                "createdAt": "2022-06-14T13:17:43.922Z",
+                "updatedAt": "2022-06-14T13:17:43.922Z",
                 "comments": [
                     {
                         "_id": "62af4990ba0a8915bb188657",
                         "user": {
                             "_id": "62ab30270362cf621ada2e30",
                             "email": "khodja.moussa@yahoo.com",
-                            "name": "admin"
+                            "name": "admin",
+                            avatarUrl: url or null
                         },
                         "text": "from admin"
                     }
                 ],
-                "__v": 1,
+                "owner": {
+                    _id
+                    name
+                    email
+                    avatarUrl
+                },
+                "prediction": {
+                    "probability": "99%",
+                    "result": "melanoma"
+                },
             }
 
             if error
@@ -425,22 +429,25 @@ user
             status: 200 
             [
                 {
-                    "published": true,
-                    "_id": "62a882f4e103ca45d1c5fe18",
+                    "_id": "62a88a77d0de9e5172c91894",
                     "description": "admin lesion2",
+                    "published": false,
+                    "imageUrl": "/lesions/62a88a77d0de9e5172c91894/image"
+                    "createdAt": "2022-06-14T13:17:43.922Z",
+                    "updatedAt": "2022-06-14T13:17:43.922Z",
+                    comments: []
                     "owner": {
-                        _id: "",
-                        name: "",
-                        email: ""
-                        avatarUrl: url or null
+                        _id
+                        name
+                        email
+                        avatarUrl
                     },
-                    "createdAt": "2022-06-14T12:45:40.928Z",
-                    "updatedAt": "2022-06-14T13:05:55.744Z",
-                    "__v": 0,
-                    "imageUrl": "/lesions/62a882f4e103ca45d1c5fe18/image"
-                },
+                    "prediction": {
+                        "probability": "99%",
+                        "result": "melanoma"
+                    },
+                }
             ]
-
             if error
             status: 500
             {
@@ -468,19 +475,23 @@ user
             if success
             status: 201
             {
-                "published": false,
                 "_id": "62a88a77d0de9e5172c91894",
                 "description": "admin lesion2",
-                "owner": {
-                    _id,
-                    name,
-                    email,
-                    avatarUrl
-                }
+                "published": false,
+                "imageUrl": "/lesions/62a88a77d0de9e5172c91894/image"
                 "createdAt": "2022-06-14T13:17:43.922Z",
                 "updatedAt": "2022-06-14T13:17:43.922Z",
-                "__v": 0,
-                "imageUrl": "/lesions/62a88a77d0de9e5172c91894/image"
+                comments: []
+                "owner": {
+                    _id
+                    name
+                    email
+                    avatarUrl
+                },
+                "prediction": {
+                    "probability": "99%",
+                    "result": "melanoma"
+                },
             }
 
             if error
@@ -501,33 +512,23 @@ user
             status: 200 
             [
                 {
-                    "published": false,
                     "_id": "62a88a77d0de9e5172c91894",
                     "description": "admin lesion2",
+                    "published": false,
+                    "imageUrl": "/lesions/62a88a77d0de9e5172c91894/image"
+                    "createdAt": "2022-06-14T13:17:43.922Z",
+                    "updatedAt": "2022-06-14T13:17:43.922Z",
+                    comments: []
                     "owner": {
-                        _id,
-                        name,
-                        email,
+                        _id
+                        name
+                        email
                         avatarUrl
                     },
-                    "createdAt": "2022-06-14T13:17:43.922Z",
-                    "updatedAt": "2022-06-14T13:17:43.922Z",
-                    "__v": 0,
-                    "imageUrl": "/lesions/62a88a77d0de9e5172c91894/image"
-                },
-                {
-                    "published": false,
-                    "_id": "62a88a77d0de9e5172c91894",
-                    "description": "admin lesion2",
-                    "owner": {
-                        _id,
-                        name,
-                        email
+                    "prediction": {
+                        "probability": "99%",
+                        "result": "melanoma"
                     },
-                    "createdAt": "2022-06-14T13:17:43.922Z",
-                    "updatedAt": "2022-06-14T13:17:43.922Z",
-                    "__v": 0,
-                    "imageUrl": "/lesions/62a88a77d0de9e5172c91894/image"
                 }
             ]
 
@@ -546,19 +547,23 @@ user
             if success
             status: 200
             {
-                "published": false,
                 "_id": "62a88a77d0de9e5172c91894",
                 "description": "admin lesion2",
+                "published": false,
+                "imageUrl": "/lesions/62a88a77d0de9e5172c91894/image"
+                "createdAt": "2022-06-14T13:17:43.922Z",
+                "updatedAt": "2022-06-14T13:17:43.922Z",
+                comments: []
                 "owner": {
                     _id
                     name
                     email
                     avatarUrl
                 },
-                "createdAt": "2022-06-14T13:17:43.922Z",
-                "updatedAt": "2022-06-14T13:17:43.922Z",
-                "__v": 0,
-                "imageUrl": "/lesions/62a88a77d0de9e5172c91894/image"
+                "prediction": {
+                    "probability": "99%",
+                    "result": "melanoma"
+                },
             }
 
             if error
@@ -580,20 +585,25 @@ user
             if success
             status: 200
             {
-                "published": false,
                 "_id": "62a88a77d0de9e5172c91894",
                 "description": "admin lesion2",
-                "owner": {
-                    _id,
-                    name,
-                    email,
-                    avatarUrl
-                }
+                "published": false,
+                "imageUrl": "/lesions/62a88a77d0de9e5172c91894/image"
                 "createdAt": "2022-06-14T13:17:43.922Z",
                 "updatedAt": "2022-06-14T13:17:43.922Z",
-                "__v": 0,
-                "imageUrl": "/lesions/62a88a77d0de9e5172c91894/image"
+                comments: []
+                "owner": {
+                    _id
+                    name
+                    email
+                    avatarUrl
+                },
+                "prediction": {
+                    "probability": "99%",
+                    "result": "melanoma"
+                },
             }
+
 
             if error
             status: 404 or 400 (if you try to update another field) 

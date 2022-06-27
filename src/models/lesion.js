@@ -10,6 +10,10 @@ const lesionSchema = mongoose.Schema({
         type: String,
         trim: true
     },
+    prediction : {
+        probability: String,
+        result: String
+    },
     published: {
         type: Boolean,
         default: false
@@ -19,7 +23,8 @@ const lesionSchema = mongoose.Schema({
         user: {
             _id: mongoose.Schema.Types.ObjectId,
             email: String,
-            name: String
+            name: String,
+            avatarUrl: String
         },
         text: {
             type: String,

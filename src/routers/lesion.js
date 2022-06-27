@@ -4,8 +4,9 @@ const auth = require('../middleware/auth')
 const ROLES = require('../middleware/roles')
 const multer = require('multer')
 const sharp = require('sharp')
+const FormData = require('form-data')
 const {adminDoctorAuthorization, adminDoctorOwnerAuthorization} = require('../middleware/authorization')
-
+const uploadToFlask = require('../utils/uploadToFlask')
 
 // upload a lesion
 const router = express.Router()
@@ -30,11 +31,15 @@ router.post('/lesions', auth, upload.single('image'), async (req, res) => {
         email: req.user.email,
         avatarUrl: req.user.avatar ? `/users/${req.user._id}/avatar` : null
     }
-    console.log(owner)
+
+    // here you send image to flask and wait result, otherwise throw error
+    const response = await uploadToFlask(req.file)
+
     const buffer = await sharp(req.file.buffer).jpeg().toBuffer()
     const lesion = Lesion({
         ...req.body,
         image: buffer,
+        prediction: response.data,
         owner
     })
 
@@ -42,6 +47,8 @@ router.post('/lesions', auth, upload.single('image'), async (req, res) => {
         await lesion.save()
         res.status(201).send(lesion)
     }catch(e){
+        console.log("error-----------")
+        console.log(e)
         res.status(400).send({error: e})
     }
     
@@ -137,7 +144,8 @@ router.post('/lesions/:id/comments', auth, adminDoctorOwnerAuthorization, async 
             user: {
                 _id: req.user._id,
                 email: req.user.email, 
-                name: req.user.name
+                name: req.user.name,
+                avatarUrl: req.user.avatar ? `/users/${req.user._id}/avatar` : null
             },
             text: req.body.text
         }

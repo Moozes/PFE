@@ -1,6 +1,5 @@
 TODO
     handle the absence of profile image in the front, avatarUrl === null
-    upload lesion: add flask connection 
     add messaging feature
         router
         model
@@ -34,7 +33,7 @@ TEST
         comment on a lesion---
 
     user
-        upload a lesion--- still
+        upload a lesion--- 
         get my uploaded lesions--- 
         delete one of my lesions---
         Publish/Unpublish one of my lesions---
