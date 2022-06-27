@@ -47,6 +47,8 @@ router.get('/messages/:id', auth, async (req, res) => {
                 {'sender._id': req.user._id, 'receiver._id': doctor._id},
                 {'sender._id': doctor._id, 'receiver._id': req.user._id},
             ]
+        }).sort({
+            createdAt: -1
         })
         res.status(200).send(messages)
     }catch(e) {

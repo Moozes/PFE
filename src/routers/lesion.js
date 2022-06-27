@@ -77,7 +77,14 @@ router.get('/lesions/:id/image', async (req, res) => {
 // Get my lesions
 router.get('/lesions', auth, async (req, res) => {
     try{
-        await req.user.populate('lesions').execPopulate()
+        await req.user.populate({
+            path: 'lesions',
+            options: {
+                sort: {
+                    createdAt: -1
+                }
+            }
+        }).execPopulate()
         res.send(req.user.lesions)
     }catch(e) {
         console.log(e)
@@ -89,7 +96,7 @@ router.get('/lesions', auth, async (req, res) => {
 // Get published lesions, this is for doctors and admin
 router.get('/lesions/published', auth, adminDoctorAuthorization, async (req, res) => {
     try{
-        const publishedLesions = await Lesion.find({published: true})
+        const publishedLesions = await Lesion.find({published: true}).sort({updatedAt: -1})
         res.send(publishedLesions)
     }catch(e) {
         res.status(500).send({error: e})

@@ -1,10 +1,11 @@
 TODO
     handle the absence of profile image in the front, avatarUrl === null
-    add messaging feature
-        router
-        model
-        documentation
-        testing
+    cant sort comments, replace concat with insert into head of list
+    sort all array queries 
+        get all doctors---
+        get published lesions---
+        get my uploaded lesions---
+        get all my messages with doctor x---
 
 
 

@@ -130,7 +130,7 @@ router.get('/users/:id/avatar', async (req, res) => {
 // read all doctors
 router.get('/users/doctors', auth, async (req, res) => {
     try{
-        const doctors = await User.find({role: ROLES.DOCTOR})
+        const doctors = await User.find({role: ROLES.DOCTOR}).sort({createdAt: -1})
         res.send(doctors)
     }catch(e) {
         console.log(e)
