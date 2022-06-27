@@ -76,6 +76,7 @@ userSchema.virtual('lesions', {
     foreignField: 'owner._id'
 })
 
+
 // toJSON is already defined by mongoose, here we are redifining it to not return password and tokens 
 // this method is called automatically when passing mongoose document to res.send()
 userSchema.methods.toJSON = function() {

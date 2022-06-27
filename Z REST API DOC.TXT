@@ -25,6 +25,9 @@ user
     get my uploaded lesions
     delete one of my lesions
     Publish/Unpublish one of my lesions
+
+    send message to doctor X
+    get all my messages from doctor X
     
 =======================================================
 ============= Account Management =======================
@@ -367,7 +370,7 @@ user
 ============= Doctors and Admin and owner of lesion =======================
 ==========================================================================
     comment on a lesion
-        METHOD host/lesions/:id/comments
+        POST host/lesions/:id/comments
         send: 
             header: Authorization, value: "Bearer ...token_string_here..." 
             {
@@ -419,7 +422,7 @@ user
 ============= Doctors and admin=======================
 =======================================================
     Get published lesions
-        METHOD host/lesions/published
+        GET host/lesions/published
         send: 
             header: Authorization, value: "Bearer ...token_string_here..." 
             {}
@@ -610,8 +613,79 @@ user
             {
                 error: "Not Found!"
             }
-            
 
+
+
+
+===================================================================================
+============= Message Management: User =======================
+===================================================================================
+    send message to doctor X
+    POST host/messages/:id_of_doctor_x
+    send: 
+        header: Authorization, value: "Bearer ...token_string_here..." 
+        {
+            text:
+        }
+
+    receive:
+        if success
+        status: 201 
+        {
+            text:
+            sender: {
+                _id
+                email
+                name
+                avatarUrl
+            },
+            receiver: {
+                _id
+                email
+                name
+                avatarUrl
+            },
+        }
+
+        if error
+        status: 404 or 401 
+        {
+            error: "not found" or "please authenticate" 
+        }
+
+    ==========================================================      
+    get all my messages with doctor X
+    GET host/messages/:id_of_doctor_x
+    send: 
+        header: Authorization, value: "Bearer ...token_string_here..." 
+        {}
+
+    receive:
+        if success
+        status: 200
+        [
+            {
+                text:
+                sender: {
+                    _id
+                    email
+                    name
+                    avatarUrl
+                },
+                receiver: {
+                    _id
+                    email
+                    name
+                    avatarUrl
+                },
+            }
+        ]
+
+        if error
+        status: 404 or 401
+        {
+            error: "not found" or "please authenticate" 
+        }
 
 Notes: 
     -when you send Authorization header make sure the value is like this: "Bearer ...token_string_here..."
