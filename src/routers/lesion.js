@@ -156,7 +156,8 @@ router.post('/lesions/:id/comments', auth, adminDoctorOwnerAuthorization, async 
             },
             text: req.body.text
         }
-        lesion.comments = lesion.comments.concat(comment)
+        // lesion.comments = lesion.comments.concat(comment)
+        lesion.comments = [comment, ...lesion.comments]
 
         await lesion.save()
         res.status(201).send(lesion)

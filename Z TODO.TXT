@@ -1,11 +1,5 @@
 TODO
     handle the absence of profile image in the front, avatarUrl === null
-    cant sort comments, replace concat with insert into head of list
-    sort all array queries 
-        get all doctors---
-        get published lesions---
-        get my uploaded lesions---
-        get all my messages with doctor x---
 
 
 
@@ -38,6 +32,9 @@ TEST
         get my uploaded lesions--- 
         delete one of my lesions---
         Publish/Unpublish one of my lesions---
+
+        send message to doctor x---
+        get all messages with doctor x---
 
 
         
