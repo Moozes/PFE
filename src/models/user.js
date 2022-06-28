@@ -96,7 +96,6 @@ userSchema.methods.toJSON = function() {
     delete userObject.tokens
     delete userObject.latestVerificationCode
     delete userObject.latestResetPasswordCode
-    delete userObject.verifiedEmail
 
     return userObject
 }
