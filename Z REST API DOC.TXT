@@ -349,7 +349,7 @@ user
 =======================================================
 ============= Admin =======================
 =======================================================
-    verify doctor
+    verify doctor or unverify
         POST host/users/:id/verifyDoctor
         send: 
             header: Authorization, value: "Bearer ...token_string_here..." 

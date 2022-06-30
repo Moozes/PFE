@@ -24,8 +24,9 @@ router.delete('/users/:id', auth, adminAuthorization, async (req, res) => {
         const user = await User.findOneAndDelete({_id: req.params.id})
         if(!user)
             return res.status(404).send('No user with that id')
-        res.send(task)
+        res.send(user)
     }catch(e) {
+        console.log(e)
         res.status(500).send(e)
     }
 })
