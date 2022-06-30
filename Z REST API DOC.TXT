@@ -13,6 +13,7 @@ get all doctors
 
 admin
     varify a doctor
+    delete a user
 
 admin & doctor
     get published lesions
@@ -364,7 +365,23 @@ user
             {
                 error: "Not Found"
             }
+    =========================================================
+    delete a user
+        DELETE host/users/:id
+        send: 
+            header: Authorization, value: "Bearer ...token_string_here..." 
+            {}
 
+        receive:
+            if success
+            status: 200
+            {}
+
+            if error
+            status: 404 or (401 not authenticated because not logged in) or (403 not authorized because not admin)
+            {
+                error: "Not Found"
+            }
 
 ==========================================================================
 ============= Doctors and Admin and owner of lesion =======================
