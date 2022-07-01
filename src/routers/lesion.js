@@ -33,13 +33,13 @@ router.post('/lesions', auth, upload.single('image'), async (req, res) => {
     }
 
     // here you send image to flask and wait result, otherwise throw error
-    const response = await uploadToFlask(req.file)
+    // const response = await uploadToFlask(req.file)
 
     const buffer = await sharp(req.file.buffer).jpeg().toBuffer()
     const lesion = Lesion({
         ...req.body,
         image: buffer,
-        prediction: response.data,
+        // prediction: response.data,
         owner
     })
 

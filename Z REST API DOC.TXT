@@ -558,7 +558,7 @@ user
 
     ========================================================
     Delete one of my lesions
-        DELETE host/lesion/:id
+        DELETE host/lesions/:id
         send: 
             header: Authorization, value: "Bearer ...token_string_here..." 
             {}
