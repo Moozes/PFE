@@ -2,6 +2,7 @@ const express = require('express')
 const User = require('../models/user')
 const auth = require('../middleware/auth')
 const {adminAuthorization} = require('../middleware/authorization')
+const Lesion = require('../models/lesion')
 
 
 const router = express.Router()
@@ -44,6 +45,24 @@ router.post('/users/:id/verifyDoctor',auth, adminAuthorization, async (req, res)
         res.send()
     }catch(e) {
         res.status(404).send({error: "Not Found"})
+    }
+})
+
+// get all uploaded lesion images without personel information of users
+router.get('/allLesions', auth, adminAuthorization, async (req, res) => {
+    try{
+        const allLesions = await Lesion.find({}).sort({
+            createdAt: -1
+        })
+        const result = allLesions.map(l => {
+            l.owner = null
+            l.comments = null
+            return l
+        })
+        res.send(result)
+    }catch(e) {
+        console.log(e)
+        res.status(500).send({error: e})
     }
 })
 

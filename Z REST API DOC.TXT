@@ -382,6 +382,25 @@ user
             {
                 error: "Not Found"
             }
+    ==========================================================
+    get all uploaded lesion images without personel information of users
+    GET host/allLesions
+    send: 
+        header: Authorization, value: "Bearer ...token_string_here..." 
+        {}
+
+    receive:
+        if success
+        status: 200
+        [
+            {
+                avatarUrl
+            }
+        ]
+
+        if error
+        status: 401, 403
+        {}
 
 ==========================================================================
 ============= Doctors and Admin and owner of lesion =======================
