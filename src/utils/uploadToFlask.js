@@ -1,6 +1,8 @@
 const FormData = require('form-data')
 const axios = require('axios')
 const url = process.env.FLASK_URL
+// const url = 'http://192.168.43.239:5000/prediction'
+
 
 // async function uploadToFlask(file) {
 //     const response = await axios.get(url+"/hello"); 

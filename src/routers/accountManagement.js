@@ -24,7 +24,7 @@ router.post('/users', async (req, res) => {
 
         // send verification code email, save random code in db, send 200 ok
         const randomCode = generateRandomCode(4)
-        // sendRandomCode(user.email, randomCode)
+        sendRandomCode(user.email, randomCode)
         user.latestVerificationCode = randomCode
 
         // generateAuthToken will save a second time
@@ -81,7 +81,7 @@ router.post('/send-reset-code', async (req, res) => {
         
         const randomCode = generateRandomCode(4)
         // send email, if success, save random code in db, send 200 ok
-        // const info = await sendRandomCode(user.email, randomCode)
+        const info = await sendRandomCode(user.email, randomCode)
         user.latestResetPasswordCode = randomCode
         await user.save()
         res.send()
